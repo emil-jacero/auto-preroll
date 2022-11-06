@@ -1,0 +1,21 @@
+---
+global:
+  file_types: ['.mp4', '.mkv']
+
+plex:
+  url: https://plex.example.com:32400
+  token: CHANGEME
+  library: "PreRoll"
+
+schedule:
+  - name: Halloween
+    search_string: halloween
+    module:
+      month: oct,nov
+    mode: random
+
+  - name: Christmas
+    search_string: christmas
+    module:
+      month: dec,jan,feb
+    mode: random
