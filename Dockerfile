@@ -17,7 +17,6 @@ LABEL org.opencontainers.image.version="${VERSION}"
 # Run in single layer to keep size down
 RUN apt-get update && apt-get upgrade -y &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates vim openssh-client git python3 python3-pip tzdata
-# RUN DEBIAN_FRONTEND=noninteractive apt-get install -y dnsutils
 
 # Installing python modules
 ADD requirements.txt /
@@ -27,7 +26,7 @@ ENV TZ=Europe/Stockholm
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN mkdir /app
-ADD auto_preroll.py /app
+ADD auto_preroll.py /app/auto_preroll.py
 
 WORKDIR /app
 ENTRYPOINT /app/auto_preroll.py
