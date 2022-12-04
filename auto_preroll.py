@@ -123,6 +123,7 @@ def main():
 
     # Arguments
     arguments = getArguments()
+    plex_token = os.getenv('PLEX_TOKEN')
     if arguments.log_level in log_levels.keys():
         log_level = log_levels[arguments.log_level]
     else:
@@ -136,7 +137,7 @@ def main():
     current_month = datetime.today().strftime('%b').lower()
     log.debug(f"Current Month: {current_month}")
     all_videos = get_all_videos(url=conf['plex']['url'], 
-                                    token=conf['plex']['token'],
+                                    token=plex_token,
                                     lib=conf['plex']['library'])
 
     for sched in conf['schedule']:
@@ -145,7 +146,7 @@ def main():
                 filtered_videos = [video for video in all_videos if sched['search_string'] in video]
                 pre_roll_string = generate_plex_string(filtered_videos, sched['mode'])
                 try:
-                    update_plex(conf['plex']['url'], conf['plex']['token'], pre_roll_string)
+                    update_plex(conf['plex']['url'], plex_token, pre_roll_string)
                     log.info(f'Pre-roll updated to {current_month}')
                     break
                 except Exception as e:
@@ -153,7 +154,7 @@ def main():
                     log.error(e)
             else:
                 try:
-                    update_plex(conf['plex']['url'], conf['plex']['token'])
+                    update_plex(conf['plex']['url'], plex_token)
                     log.info(f'Pre-roll empty')
                 except Exception as e:
                     log.error(f'Something went wrong!')
