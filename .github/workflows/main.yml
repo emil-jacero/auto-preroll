@@ -28,6 +28,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Login to Github Container Registry
-        run: echo "${{ secrets.REGISTRY_TOKEN }}" | docker login ghcr.io -u "${{ REGISTRY_USERNAME }}" --password-stdin
+        run: echo "${ REGISTRY_TOKEN }" | docker login ghcr.io -u "${ REGISTRY_USERNAME }" --password-stdin
       - name: Publish to Github Container Registry
         run: docker push "${ IMAGE_TAG }"
