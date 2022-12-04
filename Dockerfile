@@ -17,7 +17,7 @@ LABEL org.opencontainers.image.version="${VERSION}"
 # Run in single layer to keep size down
 RUN apt-get update && apt-get upgrade -y &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates vim openssh-client git python3 python3-pip tzdata
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y dnsutils
+# RUN DEBIAN_FRONTEND=noninteractive apt-get install -y dnsutils
 
 # Installing python modules
 ADD requirements.txt /
