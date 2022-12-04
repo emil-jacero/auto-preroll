@@ -8,9 +8,9 @@ on:
 env:
   REGISTRY_USERNAME: ${{ github.actor }}
   REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  REGISTRY_URL: ghcr.io/${{ REGISTRY_USERNAME }}
+  REGISTRY_URL: ghcr.io/${{ github.actor }}
   REPO_NAME: ${{ github.event.repository.name }}
-  IAMGE_TAG: "${{ REGISTRY_URL }}/${{ REPO_NAME }}:latest"
+  IAMGE_TAG: "$REGISTRY_URL/$REPO_NAME:latest"
 
 jobs:
   build:
