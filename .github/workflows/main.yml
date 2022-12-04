@@ -34,7 +34,6 @@ jobs:
           context: .
           tags: |
             ${{ env.IMAGE_TAG }}
-            ghcr.io/oskardudycz/eventsourcing.nodejs/simple:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
