@@ -10,7 +10,7 @@ env:
   REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   REGISTRY_URL: ghcr.io/${{ github.actor }}
   REPO_NAME: ${{ github.event.repository.name }}
-  IAMGE_TAG: "$REGISTRY_URL/$REPO_NAME:latest"
+  IMAGE_TAG: "$REGISTRY_URL/$REPO_NAME:latest"
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
       # - name: Set up Docker Buildx
       #   uses: docker/setup-buildx-action@v2
       - name: Build Docker image
-        run: docker build -t "${{ IAMGE_TAG }}" .
+        run: docker build -t "${ IMAGE_TAG }" .
 
   publish:
     runs-on: ubuntu-latest
@@ -30,4 +30,4 @@ jobs:
       - name: Login to Github Container Registry
         run: echo "${{ secrets.REGISTRY_TOKEN }}" | docker login ghcr.io -u "${{ REGISTRY_USERNAME }}" --password-stdin
       - name: Publish to Github Container Registry
-        run: docker push "${{ IAMGE_TAG }}"
+        run: docker push "${ IMAGE_TAG }"
