@@ -1,6 +1,6 @@
 ---
 global:
-  file_types: ['.mp4', '.mkv']
+  file_types: [".mp4", ".mkv"]
 
 plex:
   url: https://plex.example.com:32400
@@ -17,5 +17,5 @@ schedule:
   - name: Christmas
     search_string: christmas
     module:
-      month: dec,jan,feb
+      month: dec,jan
     mode: random
