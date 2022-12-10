@@ -26,6 +26,7 @@ RUN pip3 install -r requirements.txt
 
 RUN mkdir /app && groupadd -g 1000 preroll && useradd -m -s /bin/bash -d /app -g 1000 -u 1000 preroll
 ADD auto_preroll.py /app/auto_preroll.py
+RUN chown -R 1000:1000 /app
 
 USER 1000:1000
 WORKDIR /app
