@@ -31,5 +31,4 @@ ADD auto_preroll.py /app/auto_preroll.py
 USER 1000:1000
 WORKDIR /app
 
-# ENTRYPOINT [ "/usr/bin/ls", "-la", "/app" ]
 ENTRYPOINT [ "/usr/bin/python3", "/app/auto_preroll.py" ]
