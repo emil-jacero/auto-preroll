@@ -25,7 +25,7 @@ RUN pip3 install -r requirements.txt
 ENV TZ=Europe/Stockholm
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ADD auto_preroll.py /app/auto_preroll.py
+COPY auto_preroll.py /app/auto_preroll.py
 RUN ls -la /app
 
 WORKDIR /app
