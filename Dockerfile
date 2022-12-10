@@ -10,7 +10,6 @@ ARG VERSION
 LABEL org.opencontainers.image.authors="emil@jacero.se"
 LABEL org.opencontainers.image.title="${TITLE}"
 LABEL org.opencontainers.image.source="${VCS_URL}"
-LABEL org.opencontainers.image.revision="${VCS_REF}"
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
 LABEL org.opencontainers.image.version="${VERSION}"
 
