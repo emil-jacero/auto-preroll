@@ -24,7 +24,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ADD requirements.txt /
 RUN pip3 install -r requirements.txt
 
-RUN useradd -m -s /bin/bash -d /app -g 1000 -u 1000 preroll
+RUN groupadd -g 1000 preroll && useradd -m -s /bin/bash -d /app -g 1000 -u 1000 preroll
 ADD auto_preroll.py /app/auto_preroll.py
 
 USER preroll
