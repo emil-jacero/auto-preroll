@@ -16,7 +16,7 @@ jobs:
     steps:
       - run: echo "$GITHUB_CONTEXT"
 
-      - run: echo "${{ github }}"
+      - run: echo "${{ github.repository }}"
 
       - name: Checkout code
         uses: actions/checkout@v3
