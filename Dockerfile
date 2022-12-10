@@ -17,16 +17,17 @@ LABEL org.opencontainers.image.version="${VERSION}"
 RUN apt-get update && apt-get upgrade -y &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates python3 python3-pip tzdata
 
+ENV TZ=Europe/Stockholm
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Installing python modules
 ADD requirements.txt /
 RUN pip3 install -r requirements.txt
 
-ENV TZ=Europe/Stockholm
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN useradd -m -s /bin/bash -d /app -g 1000 -u 1000 preroll
+ADD auto_preroll.py /app/auto_preroll.py
 
-COPY auto_preroll.py /app/auto_preroll.py
-RUN ls -la /app
-
+USER preroll
 WORKDIR /app
 ENTRYPOINT [ "python3" ]
 CMD [ "/app/auto_preroll.py" ]
