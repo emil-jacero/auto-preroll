@@ -24,11 +24,10 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ADD requirements.txt /
 RUN pip3 install -r requirements.txt
 
-RUN mkdir /app
-# && groupadd -g 1000 preroll && useradd -m -s /bin/bash -d /app -g 1000 -u 1000 preroll
+RUN mkdir /app && groupadd -g 1000 preroll && useradd -m -s /bin/bash -d /app -g 1000 -u 1000 preroll
 ADD auto_preroll.py /app/auto_preroll.py
 
 USER 1000:1000
 WORKDIR /app
 
-ENTRYPOINT [ "/usr/bin/python3", "/app/auto_preroll.py" ]
+CMD [ "/usr/bin/python3", "/app/auto_preroll.py" ]
