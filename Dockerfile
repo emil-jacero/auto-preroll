@@ -28,4 +28,4 @@ COPY auto_preroll.py /app/auto_preroll.py
 RUN ls -la /app
 
 WORKDIR /app
-ENTRYPOINT /app/auto_preroll.py
+CMD ["python3", "/app/auto_preroll.py"]
