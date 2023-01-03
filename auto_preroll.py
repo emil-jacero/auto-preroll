@@ -33,7 +33,7 @@ except:
 def getArguments():
 
     name = 'Auto-Preroll'
-    version = '0.3.5'
+    version = '0.3.6'
     parser = ArgumentParser(
         description=f'{name}: Set monthly trailers for Plex')
 
@@ -82,7 +82,20 @@ def get_config(conf):
 
     log.debug(json.dumps(cfg, indent=2))
 
-    if len(cfg['schedule']) <= 1:
+    # Simple validation
+    if cfg['default'] and len(cfg['schedule']) >= 1:
+        log.info("Found schedule and default in configuration. Continuing...")
+    elif cfg['default'] and len(cfg['schedule']) <= 1:
+        log.info("Found no schedule but a default configuration. Continuing...")
+    elif not cfg['default'] and len(cfg['schedule']) >= 1:
+        log.info("Found schedule but no default in configuration. Continuing...")
+    elif not cfg['default'] and len(cfg['schedule']) <= 1:
+        log.error(
+            "No schedule or default found in the configuration. Please add a schedule or a default to the configuration")
+        sys.exit(1)
+    else:
+        log.error(
+            "Something else went wrong with the validation")
         sys.exit(1)
 
     return cfg
@@ -160,44 +173,50 @@ def main():
     all_videos = get_all_videos(url=conf['plex']['url'],
                                 token=plex_token,
                                 lib=conf['plex']['library'])
+
     active_schedule = {}
 
     for sched in conf['schedule']:
-
         if current_month in sched['month']:
-
             if sched['days'] == "*" or sched['days'] == "all":
                 active_schedule = sched
-
+                break
             elif type(sched['days']) is list:
-
                 if day_of_month in sched['days']:
                     active_schedule = sched
-
             else:
                 log.error(
                     f"Unkown value of missing key 'days' [{sched['days']}]")
                 sys.exit(1)
-
-        elif conf['default']:
-            active_schedule = conf['default']
-            active_schedule['name'] = "Default"
-
         else:
             log.info("No matching configuration found")
 
-    filtered_videos = [
-        video for video in all_videos if active_schedule['search_string'] in video]
+    if active_schedule == {} and conf['default']:
 
-    pre_roll_string = generate_plex_string(
-        filtered_videos, active_schedule['mode'])
+        active_schedule = conf['default']
+        active_schedule['name'] = "Default"
+        filtered_videos = [
+            video for video in all_videos if active_schedule['search_string'] in video]
+        pre_roll_string = generate_plex_string(
+            filtered_videos, active_schedule['mode'])
+        try:
+            update_plex(conf['plex']['url'], plex_token, pre_roll_string)
+            log.info(f"Pre-roll updated to {active_schedule['name']}")
+        except Exception as e:
+            log.error(f'Something went wrong!')
+            log.error(e)
 
-    try:
-        update_plex(conf['plex']['url'], plex_token, pre_roll_string)
-        log.info(f"Pre-roll updated to {active_schedule['name']}")
-    except Exception as e:
-        log.error(f'Something went wrong!')
-        log.error(e)
+    else:
+        filtered_videos = [
+            video for video in all_videos if active_schedule['search_string'] in video]
+        pre_roll_string = generate_plex_string(
+            filtered_videos, active_schedule['mode'])
+        try:
+            update_plex(conf['plex']['url'], plex_token, pre_roll_string)
+            log.info(f"Pre-roll updated to {active_schedule['name']}")
+        except Exception as e:
+            log.error(f'Something went wrong!')
+            log.error(e)
 
 
 if __name__ == '__main__':
