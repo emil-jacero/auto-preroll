@@ -33,7 +33,7 @@ except:
 def getArguments():
 
     name = 'Auto-Preroll'
-    version = '0.3.4'
+    version = '0.3.5'
     parser = ArgumentParser(
         description=f'{name}: Set monthly trailers for Plex')
 
