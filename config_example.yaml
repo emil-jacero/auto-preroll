@@ -7,15 +7,25 @@ plex:
   token: CHANGEME
   library: "PreRoll"
 
+default:
+  search_string: default
+  mode: random
+
 schedule:
   - name: Halloween
     search_string: halloween
-    module:
-      month: oct,nov
     mode: random
+    month: oct,nov
+    days: "*"
 
   - name: Christmas
     search_string: christmas
-    module:
-      month: dec,jan
     mode: random
+    month: dec
+    days: "*"
+
+  - name: New Years
+    search_string: new_years
+    mode: random
+    month: jan
+    days: [1, 2, 3, 4, 5, 6]
